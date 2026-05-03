@@ -10,7 +10,11 @@ const connectDB = async () => {
   }
 
   try {
-    const uri = process.env.MONGO_URI || "mongodb+srv://admin:admin123@cluster0.gcpabhe.mongodb.net/hms_db";
+    const uri = process.env.MONGO_URI;
+    if (!uri) {
+      throw new Error("MONGO_URI is not configured");
+    }
+
     cachedConnection = await mongoose.connect(uri);
     console.log("MongoDB Connected");
     return cachedConnection;
